@@ -40,10 +40,28 @@ los mismos.
 # Construccion de modelos
 
 # Funciones para agregar informacion al catalogo
+def cargarDatosCatalogo():
+    catalog={
+                'artists':None
+    }
+
+    catalog['artists'] = mp.newMap(34500, 
+                        maptype = 'CHAINING',
+                        loadfactor = 2)
+    return catalog
+
+
+
+    
 
 # Funciones para creacion de datos
+def addArtist(catalogo, artista):
+    genero= artista['genres']
+    mp.put(catalogo['artists'], genero, artista )
 
 # Funciones de consulta
+def artistSize(catalogo):
+    return mp.size(catalogo['artists'])
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
