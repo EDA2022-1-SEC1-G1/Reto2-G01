@@ -25,6 +25,11 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+from DISClib.ADT import map as mp
+import sys
+
+default_limit = 1000
+sys.setrecursionlimit(default_limit*10)
 
 
 """
@@ -37,7 +42,6 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
 
 catalog = None
 
@@ -51,17 +55,18 @@ while True:
         print("Cargando información de los archivos ....")
         tipoMapa=input('Tipo de Mapa: \n1-PROBING\n2-CHAINING\n')
         if int(tipoMapa) == 1:
-            tipoMapa=='PROBING'
+            tipoMapa ='PROBING'
         elif int(tipoMapa) == 2:
-            tipoMapa=='CHAINNING'
+            tipoMapa='CHAINING'
         else:
             print('Numero no es una opcion')
         factorCarga=input('Factor de Carga: \n')
-        catalogo=controller.cargarDatosCatalogo()
+        catalogo=controller.cargarDatosCatalogo(str(tipoMapa), float(factorCarga))
         delta_time, deltamemory=controller.loadData(catalogo)
         print(' Numero Generos: '+str(controller.artistSize(catalogo)))
         print("Tiempo [ms]: ", f"{delta_time:.3f}", "||",
               "Memoria [kB]: ", f"{deltamemory:.3f}")
+        
 
 
     elif int(inputs[0]) == 2:

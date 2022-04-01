@@ -40,28 +40,48 @@ los mismos.
 # Construccion de modelos
 
 # Funciones para agregar informacion al catalogo
-def cargarDatosCatalogo():
+def cargarDatosCatalogo(tipoMapa, factorCarga):
     catalog={
-                'artists':None
+                'generos':None
     }
 
-    catalog['artists'] = mp.newMap(34500, 
-                        maptype = 'CHAINING',
-                        loadfactor = 2)
+    catalog['generos'] = mp.newMap(34500, 
+                        maptype = tipoMapa,
+                        loadfactor = factorCarga)
     return catalog
 
 
-
-    
-
 # Funciones para creacion de datos
-def addArtist(catalogo, artista):
-    genero= artista['genres']
-    mp.put(catalogo['artists'], genero, artista )
+def addArtistGenero(catalogo, artista):
+
+    generosArtista=artista['genres']
+
+    if generosArtista != '[]':
+        listaGenerosArtista=eval(artista['genres'])
+        for genero in listaGenerosArtista:
+            if mp.contains(catalogo['generos'], genero) == False:
+                listaArtistas=lt.newList()
+                lt.addLast(listaArtistas, artista)
+                mp.put(catalogo['generos'],genero,listaArtistas)
+            else:
+                llaveValorGenero=mp.get(catalogo['generos'],genero)
+                listaArtistas=me.getValue(llaveValorGenero)
+                lt.addLast(listaArtistas, artista)
+    else:
+        llaveVacio='No tiene'
+        if mp.contains(catalogo['generos'],llaveVacio)==False:
+            listaArtistas=lt.newList()
+            lt.addLast(listaArtistas, artista)
+            mp.put(catalogo['generos'],llaveVacio,listaArtistas)
+        else:
+            llaveValorGenero=mp.get(catalogo['generos'],llaveVacio)
+            listaArtistas=me.getValue(llaveValorGenero)
+            lt.addLast(listaArtistas, artista)
+        
 
 # Funciones de consulta
 def artistSize(catalogo):
-    return mp.size(catalogo['artists'])
+    return mp.size(catalogo['generos'])
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

@@ -33,15 +33,15 @@ El controlador se encarga de mediar entre la vista y el modelo.
 """
 
 # Inicialización del Catálogo de libros
-def cargarDatosCatalogo():
-    return model.cargarDatosCatalogo()
+def cargarDatosCatalogo(tipoMapa, factorCarga):
+    return model.cargarDatosCatalogo(tipoMapa,factorCarga)
 
 # Funciones para la carga de datos
 def loadArtists(catalogo):
-    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-50pct.csv'
+    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-20pct.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for artist in input_file:
-        model.addArtist(catalogo, artist)
+        model.addArtistGenero(catalogo, artist)
 
 def loadData(catalogo):
     tracemalloc.start()
