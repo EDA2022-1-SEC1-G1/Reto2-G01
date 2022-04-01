@@ -38,7 +38,7 @@ def cargarDatosCatalogo(tipoMapa, factorCarga):
 
 # Funciones para la carga de datos
 def loadArtists(catalogo):
-    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-20pct.csv'
+    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-large.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtistGenero(catalogo, artist)

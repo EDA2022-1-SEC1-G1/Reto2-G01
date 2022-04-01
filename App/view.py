@@ -27,8 +27,8 @@ from DISClib.ADT import list as lt
 assert cf
 from DISClib.ADT import map as mp
 import sys
-
-default_limit = 1000
+from DISClib.DataStructures import mapentry as me
+default_limit = 1000000
 sys.setrecursionlimit(default_limit*10)
 
 
@@ -66,6 +66,8 @@ while True:
         print(' Numero Generos: '+str(controller.artistSize(catalogo)))
         print("Tiempo [ms]: ", f"{delta_time:.3f}", "||",
               "Memoria [kB]: ", f"{deltamemory:.3f}")
+        
+        
         
 
 
