@@ -40,7 +40,7 @@ operación solicitada
 """
 
 def printMenu():
-    print("Bienvenido")
+    print("\nBienvenido")
     print("1- Cargar información en el catálogo")
 
 catalog = None
@@ -53,16 +53,22 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        tipoMapa=input('Tipo de Mapa: \n1-PROBING\n2-CHAINING\n')
+        tamanioarchivo=input('\nSeleccione el Tamanio de archivo: \n1-small\n2-large\n ')
+        if int(tamanioarchivo)==1:
+            tamanioarchivo='small'
+        elif int(tamanioarchivo)==2:
+            tamanioarchivo='large'
+        tipoMapa=input('\nTipo de Mapa: \n1-PROBING\n2-CHAINING\n')
         if int(tipoMapa) == 1:
             tipoMapa ='PROBING'
         elif int(tipoMapa) == 2:
             tipoMapa='CHAINING'
         else:
             print('Numero no es una opcion')
-        factorCarga=input('Factor de Carga: \n')
+       
+        factorCarga=input('\nFactor de Carga: \n')
         catalogo=controller.cargarDatosCatalogo(str(tipoMapa), float(factorCarga))
-        delta_time, deltamemory=controller.loadData(catalogo)
+        delta_time, deltamemory=controller.loadData(catalogo, str(tamanioarchivo))
         print(' Numero Generos: '+str(controller.artistSize(catalogo)))
         print("Tiempo [ms]: ", f"{delta_time:.3f}", "||",
               "Memoria [kB]: ", f"{deltamemory:.3f}")

@@ -37,19 +37,19 @@ def cargarDatosCatalogo(tipoMapa, factorCarga):
     return model.cargarDatosCatalogo(tipoMapa,factorCarga)
 
 # Funciones para la carga de datos
-def loadArtists(catalogo):
-    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-large.csv'
+def loadArtists(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-'+tamanioArchivo+'.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtistGenero(catalogo, artist)
 
-def loadData(catalogo):
+def loadData(catalogo, tamanioArchivos):
     tracemalloc.start()
 
     start_time = getTime()
     start_memory = getMemory()
 
-    loadArtists(catalogo)
+    loadArtists(catalogo, tamanioArchivos)
 
     stop_memory = getMemory()
     stop_time = getTime()
