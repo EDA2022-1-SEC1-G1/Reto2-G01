@@ -64,6 +64,9 @@ def inicializarCatalogo( factorCarga):
     catalog['artistasPopularidad'] = mp.newMap(200, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
+    catalog['paisCanciones'] = mp.newMap(200, 
+                        maptype = 'PROBING',
+                        loadfactor = factorCarga)
     catalog['cancionesPopularidad'] = mp.newMap(200, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
@@ -74,9 +77,7 @@ def inicializarCatalogo( factorCarga):
 
 # Funciones para creacion de datos
 def addArtistGenero(catalogo, artista):
-
     generosArtista=artista['genres']
-
     if generosArtista != '[]':
         listaGenerosArtista=eval(artista['genres'])
         for genero in listaGenerosArtista:
@@ -134,8 +135,6 @@ def addAlbumAnio(catalogo, album):
         listaAlbumes=me.getValue(llaveValor)
         lt.addLast(listaAlbumes, album)
         
-
-
 def listaOrdenadalbumesAnio(catalogo, anio):
     llaveValor=mp.get(catalogo['albumesAnio'], anio)
     listaAlbumes=me.getValue(llaveValor)
@@ -168,6 +167,33 @@ def cmpArtistasPopularidad(artista1, artista2):
     popularidad1=float(artista1['artist_popularity'])
     popularidad2=float(artista2['artist_popularity'])
     return ma.trunc(popularidad1)<ma.trunc(popularidad2)
+#requerimiento 3
+
+def addCancionesPopularidad(catalogo, cancion):
+
+    popularidad=float(cancion['popularity'])
+    print(popularidad)
+    print(cancion)
+    popularidad=ma.trunc(popularidad)
+    if mp.contains(catalogo['cancionesPopularidad'], popularidad) == False:
+        listaCanciones=lt.newList('ARRAY_LIST')
+        lt.addLast(listaCanciones, cancion)
+        mp.put(catalogo['cancionesPopularidad'],popularidad, listaCanciones)
+    else:
+        llaveValor=mp.get(catalogo['cancionesPopularidad'], popularidad)
+        listaCanciones=me.getValue(llaveValor)
+        lt.addLast(listaCanciones, cancion)
+
+def listaOrdenadaCancionesPopularidad(catalogo, popularidad):
+    llaveValor =mp.get(catalogo["cancionesPopularidad"], popularidad)
+    listaCanciones=me.getValue(llaveValor)
+    mer.sort(listaCanciones, cmpCancionesPopularidad)
+    return(llaveValor)
+
+def cmpCancionesPopularidad(cancion1, cancion2):
+    pop1=float(cancion1["popularity"])
+    pop2=float(cancion2["popularity"])
+    return ma.trunc(pop1) > ma.trunc(pop2)
 
 #requerimiento 4
 def addCancionesPaises(catalogo, cancion):
@@ -208,4 +234,3 @@ def listaOrdenadaPaisCanciones(catalogo, codigoPais):
 # Funciones de ordenamiento
 
 #requerimiento 1
-
