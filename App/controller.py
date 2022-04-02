@@ -74,12 +74,6 @@ def loadArtistasPopularidad(catalogo, tamanioArchivo):
     for artist in input_file:
         model.addArtistaPopularidad(catalogo, artist)
 
-def loadCancionesPopularidad(catalogo, tamanioArchivo):
-    tagsfile = cf.data_dir + "Spotify/spotify-tracks-utf8-" + tamanioArchivo+".csv"
-    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
-    for cancion in input_file:
-        model.addCancionesPopularidad(catalogo, cancion)
-
 def loadCancionesPaises(catalogo, tamanioArchivo):
     tagsfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-'+tamanioArchivo+'.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
@@ -109,8 +103,6 @@ def listaOrdenadaAlbumesAnio(catalogo,anio):
     return model.listaOrdenadalbumesAnio(catalogo,anio)
 def listaOrdenadaArtistasPopularidad(catalogo, popularidad):
     return model.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
-def listaOrdenadaCancionesPopularidad(catalogo, popularidad):
-    return model.listaOrdenadaCancionesPopularidad(catalogo, popularidad)
 def listaOrdenadaPaisCanciones(catalogo, codigoPais):
     return model.listaOrdenadaPaisCanciones(catalogo, codigoPais)
 

@@ -72,7 +72,6 @@ while True:
         print("Tiempo carga datos[ms]: ", f"{delta_time:.3f}", "||",
               "Memoria carga datos[kB]: ", f"{deltamemory:.3f}")
 
-
     elif int(inputs[0]) == 1:
         anio=input('Anio de interes: ')
         controller.loadAlbumesAnio(catalogo,str(tamanioarchivo))
@@ -84,13 +83,6 @@ while True:
         controller.loadArtistasPopularidad(catalogo,tamanioarchivo)
         listaArtistasPopularidad=controller.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
         print(listaArtistasPopularidad)
-        
-    elif int(inputs[0])==3:
-        popularidadCanciones = int(input("Ingrese la popularidad de la canción (sin decimal): "))
-        controller.loadCancionesPopularidad(catalogo, tamanioarchivo)
-        listaCancionesPopularidad=controller.listaOrdenadaCancionesPopularidad(catalogo, popularidadCanciones)
-        print(listaCancionesPopularidad)
-
 
     elif int(inputs[0])==4:
         codigoPais=input('Ingrese el codigo del pais: ')
