@@ -67,6 +67,10 @@ def inicializarCatalogo( factorCarga):
     catalog['paisCanciones'] = mp.newMap(200, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
+    catalog['cancionesPopularidad'] = mp.newMap(200, 
+                        maptype = 'PROBING',
+                        loadfactor = factorCarga)
+    
 
     return catalog
 
@@ -168,11 +172,37 @@ def cmpArtistasPopularidad(artista1, artista2):
     popularidad2=float(artista2['artist_popularity'])
     return ma.trunc(popularidad1)<ma.trunc(popularidad2)
 
-#requerimirnto 3
+#requerimiento 3
+def addCancionesPopularidad(catalogo, cancion):
+    popularidad = float(cancion["popularity"])
+    popularidad = ma.trunc(popularidad)
+    if mp.contains(catalogo["cancionesPopularidad"], popularidad) == False:
+        listaCanciones = lt.newList("ARRAY_LIST")
+        lt.addLast(listaCanciones, cancion)
+        mp.put(catalogo["cancionesPopularidad"], popularidad, listaCanciones)
+    else:
+        llaveValor= mp.get(catalogo["cancionesPopularidad"], popularidad)
+        listaCanciones = me.getValue(llaveValor)
+        lt.addLast(listaCanciones, cancion)
+
+def listaOrdenadaCancionesPopularidad(catalogo, popularidad):
+    llaveValor =mp.get(catalogo["cancionesPopularidad"], popularidad)
+    listaCanciones=me.getValue(llaveValor)
+    mer.sort(listaCanciones, cmpCancionesPopularidad)
+    return(llaveValor)
+
+def cmpCancionesPopularidad(cancion1, cancion2):
+    pop1=float(cancion1["popularity"])
+    pop2=float(cancion2["popularity"])
+    return ma.trunc(pop1) > ma.trunc(pop2)
+
+
+#requerimiento 4
 def addCancionesPaises(catalogo, cancion):
-    availableMarkets=cancion['available_markets']
+    availableMarkets=str(cancion['available_markets'])
+    listaPaisesCancion=eval(availableMarkets)
     if availableMarkets != '[]':
-        listaPaisesCancion=eval(str(availableMarkets))
+        listaPaisesCancion=eval(listaPaisesCancion)
         for pais in listaPaisesCancion:
             if mp.contains(catalogo['paisCanciones'], pais ) == False:
                 listaCanciones=lt.newList('ARRAY_LIST')

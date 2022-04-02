@@ -86,7 +86,11 @@ while True:
         print(listaArtistasPopularidad)
         
     elif int(inputs[0])==3:
-        print ('POR HACER, REQUERIMIENTO 3 SANTIAGO')
+        popularidadCanciones = int(input("Ingrese la popularidad de la canción (sin decimal): "))
+        controller.loadCancionesPopularidad(catalogo, tamanioarchivo)
+        listaCancionesPopularidad=controller.listaOrdenadaCancionesPopularidad(catalogo, popularidadCanciones)
+        print(listaCancionesPopularidad)
+
 
     elif int(inputs[0])==4:
         codigoPais=input('Ingrese el codigo del pais: ')
