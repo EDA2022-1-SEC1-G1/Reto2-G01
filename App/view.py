@@ -28,7 +28,7 @@ assert cf
 from DISClib.ADT import map as mp
 import sys
 from DISClib.DataStructures import mapentry as me
-default_limit = 1000000
+default_limit = 100000
 sys.setrecursionlimit(default_limit*10)
 
 
@@ -41,8 +41,12 @@ operación solicitada
 
 def printMenu():
     print("\nBienvenido")
-    print("1- Cargar información en el catálogo")
-
+    print("0- Cargar información en el catálogo")
+    print("1- Examinar los álbumes en un año de interés")
+    print('2- Encontrar los artistas por popularidad')
+    print('3- Encontrar las canciones por popularidad')
+    print('4- Encontrar la canción más popular de un artista')
+    
 catalog = None
 
 """
@@ -51,34 +55,44 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+    if int(inputs[0]) == 0:
         print("Cargando información de los archivos ....")
-        tamanioarchivo=input('\nSeleccione el Tamanio de archivo: \n1-small\n2-large\n ')
+        tamanioarchivo=input('\nSeleccione el Tamanio de archivo: \n1-small\n2-large\n')
         if int(tamanioarchivo)==1:
             tamanioarchivo='small'
         elif int(tamanioarchivo)==2:
             tamanioarchivo='large'
-        tipoMapa=input('\nTipo de Mapa: \n1-PROBING\n2-CHAINING\n')
-        if int(tipoMapa) == 1:
-            tipoMapa ='PROBING'
-        elif int(tipoMapa) == 2:
-            tipoMapa='CHAINING'
-        else:
-            print('Numero no es una opcion')
-       
-        factorCarga=input('\nFactor de Carga: \n')
-        catalogo=controller.cargarDatosCatalogo(str(tipoMapa), float(factorCarga))
+        factorCarga=input('Factor de Carga: \n')
+        catalogo=controller.inicializarCatalogo(float(factorCarga))
         delta_time, deltamemory=controller.loadData(catalogo, str(tamanioarchivo))
-        print(' Numero Generos: '+str(controller.artistSize(catalogo)))
-        print("Tiempo [ms]: ", f"{delta_time:.3f}", "||",
-              "Memoria [kB]: ", f"{deltamemory:.3f}")
-        
-        
-        
+        print('Numero Generos: '+str(controller.generosSize(catalogo)))
+        print('Numero Artistas: '+str(controller.artistasSize(catalogo)))
+        print('Numero canciones: '+str(controller.cancionesSize(catalogo)))
+        print('Numero Albumes: '+str(controller.albumesSize(catalogo)))
+        print("Tiempo carga datos[ms]: ", f"{delta_time:.3f}", "||",
+              "Memoria carga datos[kB]: ", f"{deltamemory:.3f}")
 
+
+    elif int(inputs[0]) == 1:
+        anio=input('Anio de interes: ')
+        controller.loadAlbumesAnio(catalogo,str(tamanioarchivo))
+        listaAlbumesAnio=controller.listaOrdenadaAlbumesAnio(catalogo, anio)
+        print(listaAlbumesAnio)
 
     elif int(inputs[0]) == 2:
-        pass
+        popularidad=int(input('Ingrese la Popularidad (sin decimal): '))
+        controller.loadArtistasPopularidad(catalogo,tamanioarchivo)
+        listaArtistasPopularidad=controller.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
+        print(listaArtistasPopularidad)
+        
+    elif int(inputs[0])==3:
+        print ('POR HACER, REQUERIMIENTO 3 SANTIAGO')
+
+    elif int(inputs[0])==4:
+        codigoPais=input('Ingrese el codigo del pais: ')
+        nombreArtistas=input('Ingrese nombre Artistas: ')
+        controller.loadCancionesPaises(catalogo,tamanioarchivo)
+        listaPaisCanciones=controller.listaOrdenadaPaisCanciones(catalogo, codigoPais)
 
     else:
         sys.exit(0)

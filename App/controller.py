@@ -25,6 +25,8 @@ import model
 import csv
 import tracemalloc
 import time
+import csv
+csv.field_size_limit(2147483647)
 
 
 
@@ -32,43 +34,90 @@ import time
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-# Inicialización del Catálogo de libros
-def cargarDatosCatalogo(tipoMapa, factorCarga):
-    return model.cargarDatosCatalogo(tipoMapa,factorCarga)
+def inicializarCatalogo( factorCarga):
+    return model.inicializarCatalogo(factorCarga)
 
 # Funciones para la carga de datos
-def loadArtists(catalogo, tamanioArchivo):
+def loadGeneros(catalogo, tamanioArchivo):
     tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-'+tamanioArchivo+'.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtistGenero(catalogo, artist)
 
+def loadArtists(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addArtistsId(catalogo, artist)
+
+def loadCanciones(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for cancion in input_file:
+        model.addCancionId(catalogo, cancion)
+
+def loadAlbumes(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for album in input_file:
+        model.addAlbumId(catalogo, album)
+
+def loadAlbumesAnio(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for album in input_file:
+        model.addAlbumAnio(catalogo, album)
+
+def loadArtistasPopularidad(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addArtistaPopularidad(catalogo, artist)
+
+def loadCancionesPaises(catalogo, tamanioArchivo):
+    tagsfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-'+tamanioArchivo+'.csv'
+    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
+    for cancion in input_file:
+        model.addCancionesPaises(catalogo, cancion)
+
+
 def loadData(catalogo, tamanioArchivos):
     tracemalloc.start()
-
     start_time = getTime()
     start_memory = getMemory()
 
+    loadGeneros(catalogo, tamanioArchivos)
     loadArtists(catalogo, tamanioArchivos)
+    loadCanciones(catalogo, tamanioArchivos)
+    loadAlbumes(catalogo, tamanioArchivos)
 
     stop_memory = getMemory()
     stop_time = getTime()
-
     tracemalloc.stop()
-
     delta_time = deltaTime(stop_time, start_time)
     delta_memory = deltaMemory(stop_memory, start_memory)
-
     return (delta_time,delta_memory)
 
 
 
 # Funciones de ordenamiento
+def listaOrdenadaAlbumesAnio(catalogo,anio):
+    return model.listaOrdenadalbumesAnio(catalogo,anio)
+def listaOrdenadaArtistasPopularidad(catalogo, popularidad):
+    return model.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
+def listaOrdenadaPaisCanciones(catalogo, codigoPais):
+    return model.listaOrdenadaPaisCanciones(catalogo, codigoPais)
 
 # Funciones de consulta sobre el catálogo
 
-def artistSize(catalogo):
-    return model.artistSize(catalogo)
+def generosSize(catalogo):
+    return model.generosSize(catalogo)
+def artistasSize(catalogo):
+    return model.artistsSize(catalogo)
+def cancionesSize(catalogo):
+    return model.cancionesSize(catalogo)
+def albumesSize(catalogo):
+    return model.albumesSize(catalogo)
 
 # Funciones para medir tiempos de ejecucion
 
