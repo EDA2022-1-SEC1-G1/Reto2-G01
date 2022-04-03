@@ -49,6 +49,7 @@ def loadArtists(catalogo, tamanioArchivo):
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtistsId(catalogo, artist)
+        model.addArtistsName(catalogo, artist)
 
 def loadCanciones(catalogo, tamanioArchivo):
     tagsfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-'+tamanioArchivo+'.csv'
@@ -124,15 +125,17 @@ def cancionesSize(catalogo):
 def albumesSize(catalogo):
     return model.albumesSize(catalogo)
 
+#funciones caracteristicas especiales
+def cancionPopularArtistaPais(catalogo, listaCancionesPais, artista):
+    return model.cancionPopularArtistaPais(catalogo, listaCancionesPais, artista)
+   
 # Funciones para medir tiempos de ejecucion
-
 
 def getTime():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
     return float(time.perf_counter()*1000)
-
 
 def deltaTime(end, start):
     """
@@ -141,16 +144,13 @@ def deltaTime(end, start):
     elapsed = float(end - start)
     return elapsed
 
-
 # Funciones para medir la memoria utilizada
-
 
 def getMemory():
     """
     toma una muestra de la memoria alocada en instante de tiempo
     """
     return tracemalloc.take_snapshot()
-
 
 def deltaMemory(stop_memory, start_memory):
     """

@@ -55,6 +55,10 @@ def inicializarCatalogo( factorCarga):
     catalog['artistas'] = mp.newMap(34500, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
+    catalog['artistasLlaveNombre'] = mp.newMap(34500, 
+                        maptype = 'PROBING',
+                        loadfactor = factorCarga)
+    
     catalog['albumes'] = mp.newMap(34500, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
@@ -64,7 +68,7 @@ def inicializarCatalogo( factorCarga):
     catalog['artistasPopularidad'] = mp.newMap(200, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
-    catalog['paisCanciones'] = mp.newMap(200, 
+    catalog['paisCanciones'] = mp.newMap(700, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
     catalog['cancionesPopularidad'] = mp.newMap(200, 
@@ -103,6 +107,10 @@ def addArtistGenero(catalogo, artista):
 def addArtistsId(catalogo, artista):
     idArtista=artista['id']
     mp.put(catalogo['artistas'],idArtista, artista )
+
+def addArtistsName(catalogo, artista):
+    nombreArtista=artista['name']
+    mp.put(catalogo['artistasLlaveNombre'],nombreArtista, artista )
 
 def addCancionId(catalogo, cancion):
     idCancion=cancion['id']
@@ -172,8 +180,6 @@ def cmpArtistasPopularidad(artista1, artista2):
 def addCancionesPopularidad(catalogo, cancion):
 
     popularidad=float(cancion['popularity'])
-    print(popularidad)
-    print(cancion)
     popularidad=ma.trunc(popularidad)
     if mp.contains(catalogo['cancionesPopularidad'], popularidad) == False:
         listaCanciones=lt.newList('ARRAY_LIST')
@@ -199,8 +205,14 @@ def cmpCancionesPopularidad(cancion1, cancion2):
 def addCancionesPaises(catalogo, cancion):
     availableMarkets=str(cancion['available_markets'])
     listaPaisesCancion=eval(availableMarkets)
+    
     if availableMarkets != '[]':
-        listaPaisesCancion=eval(listaPaisesCancion)
+
+        if type(listaPaisesCancion)==str:
+            listaPaisesCancion=eval(listaPaisesCancion)
+        elif type(listaPaisesCancion)==list:
+            listaPaisesCancion=listaPaisesCancion
+
         for pais in listaPaisesCancion:
             if mp.contains(catalogo['paisCanciones'], pais ) == False:
                 listaCanciones=lt.newList('ARRAY_LIST')
@@ -225,6 +237,25 @@ def listaOrdenadaPaisCanciones(catalogo, codigoPais):
     llaveValor=mp.get(catalogo['paisCanciones'], codigoPais)
     listaCanciones=me.getValue(llaveValor)
     return(listaCanciones)
+
+def cancionPopularArtistaPais(catalogo, listaCancionesPais, artista):
+    listaCancionesArtista=lt.newList('ARRAY_LIST')
+    llaveValor=mp.get(catalogo['artistasLlaveNombre'],artista)
+    idArtista=(me.getValue(llaveValor)['id'])
+    for cancion in lt.iterator(listaCancionesPais):
+        if str(idArtista) in str(cancion['artists_id']):
+            lt.addLast(listaCancionesArtista,cancion)
+    listaCancionesArtista=mer.sort(listaCancionesArtista, cmpCancionesPopularidad)
+    cancionMasPopular=lt.getElement(listaCancionesArtista,1)
+    return(cancionMasPopular)
+
+
+
+   
+    
+
+   
+
 
 
 

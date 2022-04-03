@@ -31,7 +31,6 @@ from DISClib.DataStructures import mapentry as me
 default_limit = 100000
 sys.setrecursionlimit(default_limit*10)
 
-
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -45,7 +44,7 @@ def printMenu():
     print("1- Examinar los álbumes en un año de interés")
     print('2- Encontrar los artistas por popularidad')
     print('3- Encontrar las canciones por popularidad')
-    print('4- Encontrar la canción más popular de un artista')
+    print('4- Encontrar la canción más popular de un artista en un pais')
     
 catalog = None
 
@@ -72,7 +71,6 @@ while True:
         print("Tiempo carga datos[ms]: ", f"{delta_time:.3f}", "||",
               "Memoria carga datos[kB]: ", f"{deltamemory:.3f}")
 
-
     elif int(inputs[0]) == 1:
         anio=input('Anio de interes: ')
         controller.loadAlbumesAnio(catalogo,str(tamanioarchivo))
@@ -91,12 +89,12 @@ while True:
         listaCancionesPopularidad=controller.listaOrdenadaCancionesPopularidad(catalogo, popularidadCanciones)
         print(listaCancionesPopularidad)
 
-
     elif int(inputs[0])==4:
         codigoPais=input('Ingrese el codigo del pais: ')
-        nombreArtistas=input('Ingrese nombre Artistas: ')
+        nombreArtista=input('Ingrese nombre Artistas: ')
         controller.loadCancionesPaises(catalogo,tamanioarchivo)
         listaPaisCanciones=controller.listaOrdenadaPaisCanciones(catalogo, codigoPais)
+        print(controller.cancionPopularArtistaPais(catalogo, listaPaisCanciones, nombreArtista))
 
     else:
         sys.exit(0)
