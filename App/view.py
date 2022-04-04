@@ -48,7 +48,6 @@ def printMenu():
     print('5- Encontrar la discografía de un artista')
 catalog = None
 
-
 def printResultsAlbums(lista, sample):
     print('\n----------------------------------------------------------------------------')
     print('Los primeros 3 ALBUMES cargados son: ')
@@ -86,7 +85,6 @@ def printResultsartistas(lista, sample):
         +'\nPopularidad'+artista['artist_popularity']+'\nNumero de seguidores: '+artista['followers'])
         i+=1
     print('\n----------------------------------------------------------------------------')
-
 
 def printResultsCanciones(lista, sample, catalogo):
     print('\n----------------------------------------------------------------------------')
@@ -145,7 +143,6 @@ def printResultsReq1(lista, sample, catalogo):
             +str(album['total_tracks'] ))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------------------------------------------------------------')
-
 
 def printResultsReq2(lista, sample, catalogo):
     size=lt.size(lista)
@@ -260,7 +257,6 @@ def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista):
     #print('lyrics: '+cancion['lyrics'])
     print('---------------------------------------------------------------------------------------------------\n')
    
-
 """
 Menu principal
 """
@@ -312,7 +308,6 @@ while True:
         cancion, listaCancionesArtista=(controller.cancionPopularArtistaPais(catalogo, listaPaisCanciones, nombreArtista))
         printReq4(catalogo, cancion, listaAlbumesArtistaPais, listaCancionesArtista)
         
-
     elif int(inputs[0])==5:
         nombreArtista=input('Ingrese el nombre del artista: ')
         listaAlbumesArtista=controller.listaAlbumesArtista(catalogo, nombreArtista)

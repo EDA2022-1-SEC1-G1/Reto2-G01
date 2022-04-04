@@ -31,17 +31,13 @@ csv.field_size_limit(2147483647)
 default_limit = 100000
 sys.setrecursionlimit(default_limit*10)
 
-
-
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-
 def inicializarCatalogo( factorCarga):
     return model.inicializarCatalogo(factorCarga)
 
 # Funciones para la carga de datos
-
 def loadArtists(catalogo, tamanioArchivo):
     tagsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-'+tamanioArchivo+'.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
@@ -61,7 +57,6 @@ def loadCanciones(catalogo, tamanioArchivo):
         model.addCancionesPaises(catalogo, cancion)
     return listaCanciones
        
-
 def loadAlbumes(catalogo, tamanioArchivo):
     tagsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-'+tamanioArchivo+'.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
@@ -72,16 +67,13 @@ def loadAlbumes(catalogo, tamanioArchivo):
         model.addAlbumesPaises(catalogo, album)
     return listaAlbumes
 
-
 def loadData(catalogo, tamanioArchivos):
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-
     listaArtistas=loadArtists(catalogo, tamanioArchivos)
     listaCanciones=loadCanciones(catalogo, tamanioArchivos)
     listaAlbumes=loadAlbumes(catalogo, tamanioArchivos)
-
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
@@ -129,8 +121,8 @@ def nombreAlbumId(catalogo, albumId):
     return model.nombreAlbumId(catalogo,albumId)
 def nombreVariosArtistasId(catalogo, artistsId):
     return model.nombreVariosArtistasId(catalogo, artistsId)
-# Funciones para medir tiempos de ejecucion
 
+# Funciones para medir tiempos de ejecucion
 def getTime():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
@@ -145,7 +137,6 @@ def deltaTime(end, start):
     return elapsed
 
 # Funciones para medir la memoria utilizada
-
 def getMemory():
     """
     toma una muestra de la memoria alocada en instante de tiempo
