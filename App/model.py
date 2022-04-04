@@ -316,7 +316,7 @@ def nombreArtistaId(catalogo, artistId):
 def nombreCancionId(catalogo, trackId):
     if mp.contains(catalogo['canciones'],trackId)==True:
         llaveValor=mp.get(catalogo['canciones'], trackId)
-        nombre=me.getValue(llaveValor)
+        nombre=me.getValue(llaveValor)['name']
     else:
         nombre='UNKNOWN'
     return nombre
