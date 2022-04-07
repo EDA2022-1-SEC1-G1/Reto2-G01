@@ -48,8 +48,8 @@ def inicializarCatalogo( factorCarga):
     catalog['canciones'] = mp.newMap(102001, 
                         maptype = 'PROBING',
                         loadfactor = 0.8)
-    catalog['artistas'] = mp.newMap(561490, 
-                        maptype = 0.8,
+    catalog['artistas'] = mp.newMap(56149, 
+                        maptype = 'PROBING',
                         loadfactor = 0.8)
     catalog['artistasLlaveNombre'] = mp.newMap(56149, 
                         maptype = 'PROBING',
