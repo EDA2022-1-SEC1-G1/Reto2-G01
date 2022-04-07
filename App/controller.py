@@ -83,15 +83,66 @@ def loadData(catalogo, tamanioArchivos):
 
 # Funciones de ordenamiento
 def listaOrdenadaAlbumesAnio(catalogo,anio):
-    return model.listaOrdenadalbumesAnio(catalogo,anio)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.listaOrdenadalbumesAnio(catalogo,anio)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
+
 def listaOrdenadaArtistasPopularidad(catalogo, popularidad):
-    return model.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
+    
 def listaOrdenadaCancionesPopularidad(catalogo, popularidad):
-    return model.listaOrdenadaCancionesPopularidad(catalogo, popularidad)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.listaOrdenadaCancionesPopularidad(catalogo, popularidad)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 def listaOrdenadaPaisCanciones(catalogo, codigoPais):
-    return model.listaOrdenadaPaisCanciones(catalogo, codigoPais)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.listaOrdenadaPaisCanciones(catalogo, codigoPais)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 def listaOrdenadaPaisAlbumes(catalogo, codigoPais):
     return model.listaOrdenadaPaisAlbumes(catalogo, codigoPais)
+def listaAlbumesArtista(catalogo, nombre):
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.listaAlbumesArtista(catalogo, nombre)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
+
+    return model.listaAlbumesArtista(catalogo, nombre)
 
 # Funciones de consulta sobre el catálogo
 
@@ -108,8 +159,6 @@ def cancionPopularArtistaPais(catalogo, listaCancionesPais, artista):
     return model.cancionPopularArtistaPais(catalogo, listaCancionesPais, artista)
 def listaAlbumesArtistaPais(catalogo, listaAlbumesPais, artista):
     return model.listaAlbumesArtistaPais(catalogo, listaAlbumesPais, artista)
-def listaAlbumesArtista(catalogo, nombre):
-    return model.listaAlbumesArtista(catalogo, nombre)
 def numeroCancionesAlbum(catalogo, albumId):
     return model.numeroCancionesAlbum(catalogo, albumId)
 def nombreArtistaId(catalogo, artistId):

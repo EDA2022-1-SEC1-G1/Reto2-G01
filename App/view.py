@@ -107,7 +107,7 @@ def printResultsCanciones(lista, sample, catalogo):
         i+=1
     print('\n----------------------------------------------------------------------------')
 
-def printResultsReq1(lista, sample, catalogo):
+def printResultsReq1(lista, sample, catalogo,time, memory):
     size=lt.size(lista)
     numAlbumes=lt.size(lista)
     print('\nNumero de Albumes en el anio: '+str(numAlbumes)+'\n')
@@ -143,8 +143,11 @@ def printResultsReq1(lista, sample, catalogo):
             +str(album['total_tracks'] ))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------------------------------------------------------------')
+    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
+              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print('---------------------------------------------------------------------------------------------------\n')
 
-def printResultsReq2(lista, sample, catalogo):
+def printResultsReq2(lista, sample, catalogo,time, memory):
     size=lt.size(lista)
     numArtistas=lt.size(lista)
     print('\nNumero artsistas con esta popularidad: '+str(numArtistas)+'\n')
@@ -180,8 +183,11 @@ def printResultsReq2(lista, sample, catalogo):
             +str(nombreCancion))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
+        print("Tiempo carga datos[ms]: ", f"{time:.3f}",
+              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print('---------------------------------------------------------------------------------------------------\n')
 
-def printResultsReq3(lista, sample, catalogo):
+def printResultsReq3(lista, sample, catalogo, time, memory):
     size=lt.size(lista)
     numArtistas=lt.size(lista)
     print('\nNumero CANCIONES con esta popularidad: '+str(numArtistas)+'\n')
@@ -236,8 +242,11 @@ def printResultsReq3(lista, sample, catalogo):
             +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
+    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
+              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print('---------------------------------------------------------------------------------------------------\n')
 
-def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista):
+def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista, time, memory):
     numAlbumes=lt.size(listaAlbumesArtistaPais)
     numCanciones=lt.size(lista)
     idAlbum=cancion['album_id']
@@ -256,9 +265,12 @@ def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista):
     print('Popularidad: '+str(cancion['popularity']))
     print('Enlace URL: '+str(cancion['href']))
     print('lyrics: '+cancion['lyrics'])
+    print('---------------------------------------------------------------------------------------------------')
+    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
+              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
-def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , tipoalbum):
+def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , tipoalbum, time, memory):
     size=lt.size(listaAlbumes)
     numAlbumes=lt.size(listaAlbumes)
     albumesOrden=lt.newList('ARRAY_LIST')
@@ -323,6 +335,9 @@ def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , ti
             '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url'])
             i+=1
             print('\n--------------------------------------------------------------------------------------------------')
+    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
+              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print('---------------------------------------------------------------------------------------------------\n')
 
 
 """
@@ -365,33 +380,33 @@ while True:
         
     elif int(inputs[0]) == 1:
         anio=input('Anio de interes: ')
-        listaAlbumesAnio=controller.listaOrdenadaAlbumesAnio(catalogo, anio)
-        printResultsReq1(listaAlbumesAnio, 3, catalogo)
+        listaAlbumesAnio, time, memory=controller.listaOrdenadaAlbumesAnio(catalogo, anio)
+        printResultsReq1(listaAlbumesAnio, 3, catalogo,time,memory)
 
     elif int(inputs[0]) == 2:
         popularidad=int(input('Ingrese la Popularidad (sin decimal): '))
-        listaArtistasPopularidad=controller.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
-        printResultsReq2(listaArtistasPopularidad, 3, catalogo)
+        listaArtistasPopularidad, time, memory=controller.listaOrdenadaArtistasPopularidad(catalogo,popularidad)
+        printResultsReq2(listaArtistasPopularidad, 3, catalogo, time, memory)
         
     elif int(inputs[0])==3:
         popularidadCanciones = int(input("Ingrese la popularidad de la canción (sin decimal): "))
-        listaCancionesPopularidad=controller.listaOrdenadaCancionesPopularidad(catalogo, popularidadCanciones)
-        printResultsReq3(listaCancionesPopularidad, 3, catalogo)
+        listaCancionesPopularidad, time, memory=controller.listaOrdenadaCancionesPopularidad(catalogo, popularidadCanciones)
+        printResultsReq3(listaCancionesPopularidad, 3, catalogo, time, memory)
 
     elif int(inputs[0])==4:
         codigoPais=input('Ingrese el codigo del pais: ')
         nombreArtista=input('Ingrese nombre Artistas: ')
-        listaPaisCanciones=controller.listaOrdenadaPaisCanciones(catalogo, codigoPais)
+        listaPaisCanciones, time, memory=controller.listaOrdenadaPaisCanciones(catalogo, codigoPais)
         listaPaisAlbumes=controller.listaOrdenadaPaisAlbumes(catalogo,codigoPais )
         listaAlbumesArtistaPais=controller.listaAlbumesArtistaPais(catalogo, listaPaisAlbumes, nombreArtista)
         cancion, listaCancionesArtista=(controller.cancionPopularArtistaPais(catalogo, listaPaisCanciones, nombreArtista))
-        printReq4(catalogo, cancion, listaAlbumesArtistaPais, listaCancionesArtista)
+        printReq4(catalogo, cancion, listaAlbumesArtistaPais, listaCancionesArtista, time, memory)
         
     elif int(inputs[0])==5:
         nombreArtista=input('Ingrese el nombre del artista: ')
-        listaAlbumesArtista=controller.listaAlbumesArtista(catalogo, nombreArtista)
+        listaAlbumesArtista,time, memory=controller.listaAlbumesArtista(catalogo, nombreArtista)
         sencillo, recopilacion, album=controller.tipoAlbumesArtista(listaAlbumesArtista)
-        printResultsReq5(listaAlbumesArtista, 3, catalogo, sencillo, recopilacion, album)
+        printResultsReq5(listaAlbumesArtista, 3, catalogo, sencillo, recopilacion, album, time, memory)
 
     else:
         sys.exit(0)
