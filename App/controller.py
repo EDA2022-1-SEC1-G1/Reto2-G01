@@ -45,7 +45,6 @@ def loadArtists(catalogo, tamanioArchivo):
         listaArtistas=model.addArtistsId(catalogo, artist)
         model.addArtistsName(catalogo, artist)
         model.addArtistaPopularidad(catalogo, artist)
-        model.addArtistGenero(catalogo, artist)
     return listaArtistas
 
 def loadCanciones(catalogo, tamanioArchivo):
@@ -55,6 +54,7 @@ def loadCanciones(catalogo, tamanioArchivo):
         listaCanciones=model.addCancionId(catalogo, cancion)
         model.addCancionesPopularidad(catalogo, cancion)
         model.addCancionesPaises(catalogo, cancion)
+        model.addCancionesAlbumId(catalogo, cancion)
     return listaCanciones
        
 def loadAlbumes(catalogo, tamanioArchivo):
@@ -95,8 +95,7 @@ def listaOrdenadaPaisAlbumes(catalogo, codigoPais):
 
 # Funciones de consulta sobre el catálogo
 
-def generosSize(catalogo):
-    return model.generosSize(catalogo)
+
 def artistasSize(catalogo):
     return model.artistsSize(catalogo)
 def cancionesSize(catalogo):
@@ -121,7 +120,10 @@ def nombreAlbumId(catalogo, albumId):
     return model.nombreAlbumId(catalogo,albumId)
 def nombreVariosArtistasId(catalogo, artistsId):
     return model.nombreVariosArtistasId(catalogo, artistsId)
-
+def tipoAlbumesArtista(listaAlbumesArtista):
+    return model.tipoAlbumesArtista(listaAlbumesArtista)
+def cancionPopularAlbum(catalogo, albumId):
+    return model.cancionPopularAlbum(catalogo, albumId)
 # Funciones para medir tiempos de ejecucion
 def getTime():
     """

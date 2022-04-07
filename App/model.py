@@ -45,10 +45,6 @@ los mismos.
 # Funciones para agregar informacion al catalogo
 def inicializarCatalogo( factorCarga):
     catalog={}
-    catalog['generos'] = mp.newMap(34500, 
-                        maptype = 'PROBING',
-                        loadfactor = factorCarga)
-    
     catalog['canciones'] = mp.newMap(34500, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
@@ -79,36 +75,15 @@ def inicializarCatalogo( factorCarga):
     catalog['artistaAlbumes'] = mp.newMap(200, 
                         maptype = 'PROBING',
                         loadfactor = factorCarga)
+    catalog['cancionesAlbumId'] =  mp.newMap(34500, 
+                        maptype = 'PROBING',
+                        loadfactor = factorCarga)
     catalog['listaArtistas']=lt.newList('ARRAY_LIST')
     catalog['listaAlbumes']=lt.newList('ARRAY_LIST')
     catalog['listaCanciones']=lt.newList('ARRAY_LIST')
     return catalog
 
 # Funciones para creacion de datos
-def addArtistGenero(catalogo, artista):
-    generosArtista=artista['genres']
-    if generosArtista != '[]':
-        listaGenerosArtista=eval(artista['genres'])
-        for genero in listaGenerosArtista:
-            if mp.contains(catalogo['generos'], genero) == False:
-                listaArtistas=lt.newList()
-                lt.addLast(listaArtistas, artista)
-                mp.put(catalogo['generos'],genero,listaArtistas)
-            else:
-                llaveValorGenero=mp.get(catalogo['generos'],genero)
-                listaArtistas=me.getValue(llaveValorGenero)
-                lt.addLast(listaArtistas, artista)
-    else:
-        llaveVacio='No tiene'
-        if mp.contains(catalogo['generos'],llaveVacio)==False:
-            listaArtistas=lt.newList()
-            lt.addLast(listaArtistas, artista)
-            mp.put(catalogo['generos'],llaveVacio,listaArtistas)
-        else:
-            llaveValorGenero=mp.get(catalogo['generos'],llaveVacio)
-            listaArtistas=me.getValue(llaveValorGenero)
-            lt.addLast(listaArtistas, artista)
-
 def addArtistsId(catalogo, artista):
     idArtista=artista['id']
     mp.put(catalogo['artistas'],idArtista, artista )
@@ -135,8 +110,7 @@ def addAlbumId(catalogo, album):
     return listaAlbumes
 
 # Funciones de consulta
-def generosSize(catalogo):
-    return mp.size(catalogo['generos'])
+
 def artistsSize(catalogo):
     return mp.size(catalogo['artistas'])
 def cancionesSize(catalogo):
@@ -155,14 +129,25 @@ def numeroCancionesAlbum(catalogo, albumId):
 #requerimiento 1
 def addAlbumAnio(catalogo, album):
     anio=str(album['release_date'][:4])
-    if mp.contains(catalogo['albumesAnio'], anio) == False:
-        listaAlbumes=lt.newList('ARRAY_LIST')
-        lt.addLast(listaAlbumes,album)
-        mp.put(catalogo['albumesAnio'], anio, listaAlbumes)
+    if anio != '':
+        if mp.contains(catalogo['albumesAnio'], anio) == False:
+            listaAlbumes=lt.newList('ARRAY_LIST')
+            lt.addLast(listaAlbumes,album)
+            mp.put(catalogo['albumesAnio'], anio, listaAlbumes)
+        else:
+            llaveValor=mp.get(catalogo['albumesAnio'], anio)
+            listaAlbumes=me.getValue(llaveValor)
+            lt.addLast(listaAlbumes, album)
     else:
-        llaveValor=mp.get(catalogo['albumesAnio'], anio)
-        listaAlbumes=me.getValue(llaveValor)
-        lt.addLast(listaAlbumes, album)
+        anio='UNKNWON'
+        if mp.contains(catalogo['albumesAnio'], anio) == False:
+            listaAlbumes=lt.newList('ARRAY_LIST')
+            lt.addLast(listaAlbumes,album)
+            mp.put(catalogo['albumesAnio'], anio, listaAlbumes)
+        else:
+            llaveValor=mp.get(catalogo['albumesAnio'], anio)
+            listaAlbumes=me.getValue(llaveValor)
+            lt.addLast(listaAlbumes, album)
         
 def listaOrdenadalbumesAnio(catalogo, anio):
     llaveValor=mp.get(catalogo['albumesAnio'], anio)
@@ -189,11 +174,11 @@ def addArtistaPopularidad(catalogo, artista):
 def listaOrdenadaArtistasPopularidad(catalogo, popularidad):
     llaveValor=mp.get(catalogo['artistasPopularidad'], popularidad)
     listaArtistas=me.getValue(llaveValor)
-    mer.sort(listaArtistas,cmpArtistasNombre)
+    listaArtistas=mer.sort(listaArtistas,cmpArtistasFollowers)
     return (listaArtistas)
 
-def cmpArtistasNombre(artista1, artista2):
-    return artista1['name']<artista2['name']
+def cmpArtistasFollowers(artista1, artista2):
+    return float(artista1['followers'])>float(artista2['followers'])
 
 #requerimiento 3
 def addCancionesPopularidad(catalogo, cancion):
@@ -216,7 +201,6 @@ def listaOrdenadaCancionesPopularidad(catalogo, popularidad):
 
 def cmpCancionesDuration(cancion1, cancion2):
         return cancion1['duration_ms']>cancion2['duration_ms']
-
 def cmpCancionesNombre(cancion1, cancion2):
      return cancion1['name']<cancion2['name']
 
@@ -303,7 +287,11 @@ def addArtistaAlbumes(catalogo, album):
 def listaAlbumesArtista(catalogo, nombre):
     llaveValor=mp.get(catalogo['artistaAlbumes'], nombre)
     listaAlbumesArtista=me.getValue(llaveValor)
+    mer.sort(listaAlbumesArtista, cmpreleasedate)
     return listaAlbumesArtista
+
+def cmpreleasedate(album1, album2):
+    return album1['release_date'][:4]>album2['release_date'][:4]
 
 #funciones Catacteristicas especiales
 def nombreArtistaId(catalogo, artistId):
@@ -380,10 +368,40 @@ def listaAlbumesArtistaPais(catalogo, listaAlbumesPais, artista):
             lt.addLast(listaAlbumesArtista,album)
     return listaAlbumesArtista
     
+def tipoAlbumesArtista(listaAlbumesArtista):
+    sencillo=lt.newList('ARRAY_LIST')
+    recopilacion=lt.newList('ARRAY_LIST')
+    album=lt.newList('ARRAY_LIST')
+    for albumes in lt.iterator(listaAlbumesArtista):
+        if albumes['album_type']=='single':
+            lt.addLast(sencillo,albumes )
+        elif albumes['album_type']=='compilation':
+            lt.addLast(recopilacion, albumes)
+        elif albumes['album_type']== 'album':
+            lt.addLast(album,albumes)
+    return sencillo, recopilacion, album
 
+def addCancionesAlbumId(catalogo, cancion):
+    albumId=cancion['album_id']
+    if mp.contains(catalogo['cancionesAlbumId'], albumId)==False:
+        listaCanciones=lt.newList('ARRAY_LIST')
+        lt.addLast(listaCanciones, cancion)
+        mp.put(catalogo['cancionesAlbumId'],albumId, listaCanciones )
+    else:
+        llaveValor=mp.get(catalogo['cancionesAlbumId'],albumId)
+        listaCanciones=me.getValue(llaveValor)
+        lt.addLast(listaCanciones, cancion)
+
+def cancionPopularAlbum(catalogo, albumId):
+    llaveValor=mp.get(catalogo['cancionesAlbumId'], albumId)
+    listaCanciones=me.getValue(llaveValor)
+    listaCanciones=mer.sort(listaCanciones, cmpCancionesPopularidad)
+    cancion=lt.getElement(listaCanciones, 1)
+
+    return cancion
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-# Funciones de ordenamiento
+# Funciones de ordenamientos
 
 #requerimiento 1

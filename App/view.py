@@ -46,7 +46,7 @@ def printMenu():
     print('3- Encontrar las canciones por popularidad')
     print('4- Encontrar la canción más popular de un artista en un pais')
     print('5- Encontrar la discografía de un artista')
-catalog = None
+
 
 def printResultsAlbums(lista, sample):
     print('\n----------------------------------------------------------------------------')
@@ -186,7 +186,8 @@ def printResultsReq3(lista, sample, catalogo):
     numArtistas=lt.size(lista)
     print('\nNumero CANCIONES con esta popularidad: '+str(numArtistas)+'\n')
     if size <= sample*2:
-        print('Los primeros 3 ARTISTAS con esta popularidad ordenados ALFABETICAMENTE son:')
+        print('--------------------------------------------------------------------------------------------------')
+        print('Las CANCIONES con esta popularidad ordenadas por DURACION son:')
         for cancion in lt.iterator(lista):
             if cancion['lyrics']=='-99':
                 lyrics='UNKNOWN'
@@ -201,7 +202,7 @@ def printResultsReq3(lista, sample, catalogo):
             +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
     else:
         print('---------------------------------------------------------------------------------------------------')
-        print('Las primeras 3 CANCIONES con esta popularidad ordenadas ALFABETICAMENTE son: ')
+        print('Las primeras 3 CANCIONES con esta popularidad ordenadas por DURACION son: ')
         i=1
         while i<= sample:
             cancion=lt.getElement(lista, i)
@@ -218,7 +219,7 @@ def printResultsReq3(lista, sample, catalogo):
             +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
-        print('Las ultimas 3 CANCIONES con esta popularidad ordenadas ALFABETICAMENTE son: ')
+        print('Las ultimas 3 CANCIONES con esta popularidad ordenadas por DURACION son: ')
         i=size-(sample-1)
         while i<=size:
             cancion=lt.getElement(lista, i)
@@ -248,15 +249,82 @@ def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista):
     print('Canciones de este artista en el pais: '+str(numCanciones))
     print('---------------------------------------------------------------------------------------------------\n')
     print('Nombre Cancion: '+str(cancion['name']))
-    print('Nombre Album '+str(nombreAlbum))
+    print('Nombre Album: '+str(nombreAlbum))
     #print('Fecha Publicacion: '+str(cancion['release_date']))
     #no esta la llave release date en las canciones de este reto
     print('Artistas involucrados: '+str(nombreArtistas))
     print('Popularidad: '+str(cancion['popularity']))
     print('Enlace URL: '+str(cancion['href']))
-    #print('lyrics: '+cancion['lyrics'])
+    print('lyrics: '+cancion['lyrics'])
     print('---------------------------------------------------------------------------------------------------\n')
-   
+
+def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , tipoalbum):
+    size=lt.size(listaAlbumes)
+    numAlbumes=lt.size(listaAlbumes)
+    albumesOrden=lt.newList('ARRAY_LIST')
+    listaCancionesPopulares=lt.newList('ARRAY_LIST')
+    print('\nNumero ALBUMES total de este artista: '+str(numAlbumes)+'\n')
+    print('Numero ALBUMES tipo SENCILLO de este artista: '+str(lt.size(sencillo))+'\n')
+    print('Numero ALBUMES tipo RECOPILACION de este artista: '+str(lt.size(recopilacion))+'\n')
+    print('Numero ALBUMES tipo ALBUM de este artista: '+str(lt.size(tipoalbum)))
+    if size <= sample*2:
+        print('--------------------------------------------------------------------------------------------------')
+        print('Los ALBUMES de este Artista son:')
+        for album in lt.iterator(listaAlbumes):
+            idArtista=album['artist_id']
+            albumId=album['id']
+            nombreArtista=controller.nombreArtistaId(catalogo, idArtista)
+            cancionPopularAlbum=controller.cancionPopularAlbum(catalogo, albumId)
+            lt.addLast(albumesOrden, album['name'])
+            lt.addLast(listaCancionesPopulares, cancionPopularAlbum)
+            print( '\nNombre: '+ str(album['name']) + '\nFecha Publiocacion: '+ str(album['release_date'])
+            + "\nNumero de canciones: " + str(album['total_tracks'])+'\nTipo de album: '+ str(album['album_type']) +'\nArtista principal: '
+            +str(nombreArtista))
+    else:
+        print('---------------------------------------------------------------------------------------------------')
+        print('Los primeras 3 ALBUMES de este artsista son: ')
+        i=1
+        while i<= sample:
+            album=lt.getElement(listaAlbumes,i)
+            idArtista=album['artist_id']
+            albumId=album['id']
+            nombreArtista=controller.nombreArtistaId(catalogo, idArtista)
+            cancionPopularAlbum=controller.cancionPopularAlbum(catalogo, albumId)
+            lt.addLast(albumesOrden, album['name'])
+            lt.addLast(listaCancionesPopulares, cancionPopularAlbum)
+            print( '\nNombre: '+ str(album['name']) + '\nFecha Publiocacion: '+ str(album['release_date'])
+            + "\nNumero de canciones: " + str(album['total_tracks'])+'\nTipo de album: '+ str(album['album_type']) +'\nArtista principal: '
+            +str(nombreArtista))
+            i+=1
+        print('\n--------------------------------------------------------------------------------------------------')
+        print('Las ultimos 3 ALBUMES de este artista son: ')
+        i=size-(sample-1)
+        while i<=size:
+            album=lt.getElement(listaAlbumes,i)
+            idArtista=album['artist_id']
+            albumId=album['id']
+            nombreArtista=controller.nombreArtistaId(catalogo, idArtista)
+            cancionPopularAlbum=controller.cancionPopularAlbum(catalogo, albumId)
+            lt.addLast(albumesOrden, album['name'])
+            lt.addLast(listaCancionesPopulares, cancionPopularAlbum)
+            print( '\nNombre: '+ str(album['name']) + '\nFecha Publiocacion: '+ str(album['release_date'])
+            + "\nNumero de canciones: " + str(album['total_tracks'])+'\nTipo de album: '+ str(album['album_type']) +'\nArtista principal: '
+            +str(nombreArtista))
+            i+=1
+        print('\n--------------------------------------------------------------------------------------------------')
+        i=1
+        while i<=lt.size(listaCancionesPopulares):
+            cancion=lt.getElement(listaCancionesPopulares,i)
+            idArtists=cancion['artists_id']
+            nombreArtistas=controller.nombreVariosArtistasId(catalogo,idArtists)
+            print('\n--------------------------------------------------------------------------------------------------')
+            print('La cancion mas Popular del album '+str(lt.getElement(albumesOrden,i))+': ')
+            print('\nNombre: '+str(cancion['name'])+'\nNombre Artistas Involucrados: '+ str(nombreArtistas) +'\nDuracion: '+str(cancion['duration_ms'])+
+            '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url'])
+            i+=1
+            print('\n--------------------------------------------------------------------------------------------------')
+
+
 """
 Menu principal
 """
@@ -273,7 +341,6 @@ while True:
         factorCarga=input('Factor de Carga: \n')
         catalogo=controller.inicializarCatalogo(float(factorCarga))
         delta_time, deltamemory, listaArtistas, listaAlbumes, listaCanciones=controller.loadData(catalogo, str(tamanioarchivo))
-        print('Numero Generos: '+str(controller.generosSize(catalogo)))
         print('Numero Artistas: '+str(controller.artistasSize(catalogo)))
         print('Numero canciones: '+str(controller.cancionesSize(catalogo)))
         print('Numero Albumes: '+str(controller.albumesSize(catalogo)))
@@ -311,7 +378,9 @@ while True:
     elif int(inputs[0])==5:
         nombreArtista=input('Ingrese el nombre del artista: ')
         listaAlbumesArtista=controller.listaAlbumesArtista(catalogo, nombreArtista)
-        print(lt.size(listaAlbumesArtista))
+        sencillo, recopilacion, album=controller.tipoAlbumesArtista(listaAlbumesArtista)
+        printResultsReq5(listaAlbumesArtista, 3, catalogo, sencillo, recopilacion, album)
+
     else:
         sys.exit(0)
 
