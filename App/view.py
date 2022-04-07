@@ -336,17 +336,17 @@ while True:
         tamanioarchivo=input('\nSeleccione el Tamanio de archivo: \n1-small\n2-5pct\n3-10pct\n4-20pct\n5-30pct\n6-50pct\n7-80pct\n8-large\n')
         if int(tamanioarchivo)==1:
             tamanioarchivo='small'
-        elif int(tamanioarchivo) ==2:
+        elif int(tamanioarchivo)==2:
             tamanioarchivo="5pct"
-        elif int(tamanioarchivo) ==3:
+        elif int(tamanioarchivo)==3:
             tamanioarchivo="10pct"
-        elif int(tamanioarchivo) ==4:
+        elif int(tamanioarchivo)==4:
             tamanioarchivo="20pct"
-        elif int(tamanioarchivo) ==5:
+        elif int(tamanioarchivo)==5:
             tamanioarchivo="30pct"
-        elif int(tamanioarchivo) ==6:
+        elif int(tamanioarchivo)==6:
             tamanioarchivo="50pct"
-        elif int(tamanioarchivo) ==7:
+        elif int(tamanioarchivo)==7:
             tamanioarchivo="80pct"
         elif int(tamanioarchivo)==8:
             tamanioarchivo='large'
