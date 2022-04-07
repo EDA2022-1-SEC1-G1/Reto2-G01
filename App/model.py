@@ -43,7 +43,7 @@ los mismos.
 # Construccion de modelos
 
 # Funciones para agregar informacion al catalogo
-def inicializarCatalogo( factorCarga):
+def inicializarCatalogo():
     catalog={}
     catalog['canciones'] = mp.newMap(102001, 
                         maptype = 'PROBING',

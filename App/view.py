@@ -365,8 +365,7 @@ while True:
             tamanioarchivo="80pct"
         elif int(tamanioarchivo)==8:
             tamanioarchivo='large'
-        factorCarga=input('Factor de Carga: \n')
-        catalogo=controller.inicializarCatalogo(float(factorCarga))
+        catalogo=controller.inicializarCatalogo()
         delta_time, deltamemory, listaArtistas, listaAlbumes, listaCanciones=controller.loadData(catalogo, str(tamanioarchivo))
         print('Numero Artistas: '+str(controller.artistasSize(catalogo)))
         print('Numero canciones: '+str(controller.cancionesSize(catalogo)))

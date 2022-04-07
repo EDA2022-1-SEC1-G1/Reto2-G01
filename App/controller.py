@@ -34,8 +34,8 @@ sys.setrecursionlimit(default_limit*10)
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-def inicializarCatalogo( factorCarga):
-    return model.inicializarCatalogo(factorCarga)
+def inicializarCatalogo():
+    return model.inicializarCatalogo()
 
 # Funciones para la carga de datos
 def loadArtists(catalogo, tamanioArchivo):
