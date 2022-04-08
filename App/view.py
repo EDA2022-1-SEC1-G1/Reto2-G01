@@ -332,7 +332,7 @@ def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , ti
             print('\n--------------------------------------------------------------------------------------------------')
             print('La cancion mas Popular del album '+str(lt.getElement(albumesOrden,i))+': ')
             print('\nNombre: '+str(cancion['name'])+'\nNombre Artistas Involucrados: '+ str(nombreArtistas) +'\nDuracion: '+str(cancion['duration_ms'])+
-            '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url']+'Lyrics: '+str(cancion['lyrics']))
+            '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url']+'\nLyrics: '+str(cancion['lyrics']))
             i+=1
             print('\n--------------------------------------------------------------------------------------------------')
     print("Tiempo carga REQ5[ms]: ", f"{time:.3f}",
