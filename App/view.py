@@ -143,8 +143,8 @@ def printResultsReq1(lista, sample, catalogo,time, memory):
             +str(album['total_tracks'] ))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------------------------------------------------------------')
-    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
-              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print("Tiempo Req1[ms]: ", f"{time:.3f}",
+              "\nMemoria Req1[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
 def printResultsReq2(lista, sample, catalogo,time, memory):
@@ -152,7 +152,7 @@ def printResultsReq2(lista, sample, catalogo,time, memory):
     numArtistas=lt.size(lista)
     print('\nNumero artsistas con esta popularidad: '+str(numArtistas)+'\n')
     if size <= sample*2:
-        print('Los primeros 3 ARTISTAS con esta popularidad ordenados ALFABETICAMENTE son:')
+        print('Los primeros 3 ARTISTAS con esta popularidad ordenados por sus SEGUIDORES son:')
         for artista in lt.iterator(lista):
             idCancion=artista['track_id']
             nombreCancion=controller.nombreCancionId(catalogo, idCancion)
@@ -161,7 +161,7 @@ def printResultsReq2(lista, sample, catalogo,time, memory):
             +str(nombreCancion))
     else:
         print('---------------------------------------------------------------------------------------------------')
-        print('Los primeros 3 ARTISTAS con esta popularidad ordenados ALFABETICAMENTE son: ')
+        print('Los primeros 3 ARTISTAS con esta popularidad ordenados por sus SEGUIDORES son:')
         i=1
         while i<= sample:
             artista=lt.getElement(lista, i)
@@ -172,7 +172,7 @@ def printResultsReq2(lista, sample, catalogo,time, memory):
             +str(nombreCancion))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
-        print('Los ultimos 3 ARTISTAS con esta popularidad ordenados ALFABETICAMENTE son: ')
+        print('Los ultimos 3 ARTISTAS con esta popularidad ordenados por sus SEGUIDORES son:')
         i=size-(sample-1)
         while i<=size:
             artista=lt.getElement(lista, i)
@@ -183,8 +183,8 @@ def printResultsReq2(lista, sample, catalogo,time, memory):
             +str(nombreCancion))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
-        print("Tiempo carga datos[ms]: ", f"{time:.3f}",
-              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+        print("Tiempo carga Req2[ms]: ", f"{time:.3f}",
+              "\nMemoria carga Req2[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
 def printResultsReq3(lista, sample, catalogo, time, memory):
@@ -205,7 +205,7 @@ def printResultsReq3(lista, sample, catalogo, time, memory):
             nombreArtistas=controller.nombreVariosArtistasId(catalogo,idArtists)
             print( '\nNombre: '+ str(cancion['name']) + '\nAlbum: '+ str(nombreAlbum)
             + "\nArtistas Involucrados: " + str(nombreArtistas)+'\nPopularidad: '+ str(cancion['popularity']) +'\nDuracion[ms]: '
-            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
+            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+'\nLyrics: ')+str(lyrics))
     else:
         print('---------------------------------------------------------------------------------------------------')
         print('Las primeras 3 CANCIONES con esta popularidad ordenadas por DURACION son: ')
@@ -222,7 +222,7 @@ def printResultsReq3(lista, sample, catalogo, time, memory):
             nombreArtistas=controller.nombreVariosArtistasId(catalogo,idArtists)
             print( '\nNombre: '+ str(cancion['name']) + '\nAlbum: '+ str(nombreAlbum)
             + "\nArtistas Involucrados: " + str(nombreArtistas)+'\nPopularidad: '+ str(cancion['popularity']) +'\nDuracion[ms]: '
-            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
+            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+'\nLyrics: ')+str(lyrics))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
         print('Las ultimas 3 CANCIONES con esta popularidad ordenadas por DURACION son: ')
@@ -239,11 +239,11 @@ def printResultsReq3(lista, sample, catalogo, time, memory):
             nombreArtistas=controller.nombreVariosArtistasId(catalogo,idArtists)
             print( '\nNombre: '+ str(cancion['name']) + '\nAlbum: '+ str(nombreAlbum)
             + "\nArtistas Involucrados: " + str(nombreArtistas)+'\nPopularidad: '+ str(cancion['popularity']) +'\nDuracion[ms]: '
-            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+''))
+            +str(cancion['duration_ms']+'\nEnlace externo: '+cancion['href']+'\nLetra: '+'\nLyrics: ')+str(lyrics))
             i+=1
         print('\n--------------------------------------------------------------------------------------------------')
-    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
-              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print("Tiempo carga REQ3[ms]: ", f"{time:.3f}",
+              "\nMemoria carga REQ3[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
 def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista, time, memory):
@@ -266,8 +266,8 @@ def printReq4(catalogo, cancion, listaAlbumesArtistaPais, lista, time, memory):
     print('Enlace URL: '+str(cancion['href']))
     print('lyrics: '+cancion['lyrics'])
     print('---------------------------------------------------------------------------------------------------')
-    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
-              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print("Tiempo carga REQ4[ms]: ", f"{time:.3f}",
+              "\nMemoria carga REQ5[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
 def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , tipoalbum, time, memory):
@@ -294,7 +294,7 @@ def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , ti
             +str(nombreArtista))
     else:
         print('---------------------------------------------------------------------------------------------------')
-        print('Los primeras 3 ALBUMES de este artsista son: ')
+        print('Los primeros 3 ALBUMES de este artsista son: ')
         i=1
         while i<= sample:
             album=lt.getElement(listaAlbumes,i)
@@ -332,11 +332,11 @@ def printResultsReq5(listaAlbumes, sample, catalogo, sencillo, recopilacion , ti
             print('\n--------------------------------------------------------------------------------------------------')
             print('La cancion mas Popular del album '+str(lt.getElement(albumesOrden,i))+': ')
             print('\nNombre: '+str(cancion['name'])+'\nNombre Artistas Involucrados: '+ str(nombreArtistas) +'\nDuracion: '+str(cancion['duration_ms'])+
-            '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url'])
+            '\nPopularidad: '+cancion['popularity'] +"\nEnlace de la Cancion: "+cancion['preview_url']+'Lyrics: '+str(cancion['lyrics']))
             i+=1
             print('\n--------------------------------------------------------------------------------------------------')
-    print("Tiempo carga datos[ms]: ", f"{time:.3f}",
-              "\nMemoria carga datos[kB]: ", f"{memory:.3f}")
+    print("Tiempo carga REQ5[ms]: ", f"{time:.3f}",
+              "\nMemoria carga REQ4[kB]: ", f"{memory:.3f}")
     print('---------------------------------------------------------------------------------------------------\n')
 
 
